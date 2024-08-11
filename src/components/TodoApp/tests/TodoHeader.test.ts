@@ -10,7 +10,7 @@ describe('TodoHeader.vue', () => {
     await newTodoInput.trigger('keyup.enter')
     expect(wrapper.emitted()['new-todo']).toBeTruthy()
     // wrapper.emitted()['new-todo'] => [ [ 'play' ] ]
-    expect((wrapper.emitted()['new-todo'][0] as string[])[0]).toBe(text)
+    expect((wrapper.emitted()['new-todo'][0] as any[])[0]).toBe(text)
     expect((newTodoInput.element as HTMLInputElement).value).toBe('')
   })
 })
