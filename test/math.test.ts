@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { sum, factorial } from '../src/common/utils/math'
 
 /**
