@@ -1,11 +1,34 @@
 <template>
-  <li data-testid="todo-item" :class="{ 'completed': todo.done, 'editing': isEditing }">
+  <li
+    data-testid="todo-item"
+    :class="{ completed: todo.done, editing: isEditing }"
+  >
     <div class="view">
-      <input v-model="todo.done" data-testid="todo-done" class="toggle" type="checkbox" />
-      <label data-testid="todo-text" @dblclick="isEditing = true">{{ todo.text }}</label>
-      <button data-testid="delete" class="destroy" @click="$emit('delete-todo', todo.id)"></button>
+      <input
+        v-model="todo.done"
+        data-testid="todo-done"
+        class="toggle"
+        type="checkbox"
+      />
+      <label data-testid="todo-text" @dblclick="isEditing = true">{{
+        todo.text
+      }}</label>
+      <button
+        data-testid="delete"
+        class="destroy"
+        @click="$emit('delete-todo', todo.id)"
+      ></button>
     </div>
-    <input v-focus="todo.text" data-testid="todo-edit" class="edit" :value="todo.text" @blur="isEditing = false" @keyup.enter="handleEditTodo" />
+    <input
+      v-focus="todo.text"
+      data-testid="todo-edit"
+      class="edit"
+      :value="todo.text"
+      @blur="isEditing = false"
+      @keyup.enter="handleEditTodo"
+      @keyup.esc="handleCancelEdit"
+
+    />
   </li>
 </template>
 <script setup lang="ts">
@@ -40,7 +63,18 @@ const vFocus = (el: HTMLInputElement, binding: DirectiveBinding<string>) => {
 function handleEditTodo(e: KeyboardEvent) {
   emit('edit-todo', {
     id: props.todo.id,
-    text: (e.target as HTMLInputElement).value
+    text: (e.target as HTMLInputElement).value,
   })
+
+  // 取消编辑状态
+  isEditing.value = false
 }
+
+function handleCancelEdit() {
+  isEditing.value = false
+}
+
+defineExpose({
+  isEditing,
+})
 </script>

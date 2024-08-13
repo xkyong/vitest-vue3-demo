@@ -49,12 +49,13 @@ describe('TodoItem.vue', () => {
   })
 
   it('save edit todo', async () => {
+    const vm = wrapper!.vm as InstanceType<typeof TodoItem>
     const label = wrapper!.find('[data-testid="todo-text"]')
     const todoEdit = wrapper!.find('[data-testid="todo-edit"]')
     await label.trigger('dblclick')
     
     // 编辑文本框中的内容展示
-    expect((todoEdit.element as HTMLInputElement).value).toBe((wrapper!.vm as InstanceType<typeof TodoItem>).todo.text)
+    expect((todoEdit.element as HTMLInputElement).value).toBe(vm.todo.text)
 
     const text = 'hello'
     await todoEdit.setValue(text)
@@ -63,11 +64,25 @@ describe('TodoItem.vue', () => {
     await todoEdit.trigger('keyup.enter')
 
     // 数据被修改了，向父组件发布事件
-    // expect((wrapper!.vm as InstanceType<typeof TodoItem>).todo.text).toBe(text)
     expect(wrapper!.emitted()['edit-todo']).toBeTruthy()
     expect((wrapper!.emitted()['edit-todo'] as  any[])[0][0]).toEqual({
-      id: (wrapper!.vm as InstanceType<typeof TodoItem>).todo.id,
+      id: vm.todo.id,
       text
     })
+
+    expect(vm.isEditing).toBeFalsy()
+  })
+
+  it('cancel edit todo', async () => {
+    const vm = wrapper!.vm as InstanceType<typeof TodoItem>
+    const label = wrapper!.find('[data-testid="todo-text"]')
+    const todoEdit = wrapper!.find('[data-testid="todo-edit"]')
+    const text = vm.todo.text
+    await label.trigger('dblclick')
+    await todoEdit.setValue('hello')
+    // 触发 esc 键
+    await todoEdit.trigger('keyup.esc')
+    expect(vm.todo.text).toBe(text)
+    expect(vm.isEditing).toBeFalsy()
   })
 })

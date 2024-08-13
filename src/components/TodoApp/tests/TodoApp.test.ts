@@ -46,4 +46,43 @@ describe('TodoApp.vue', () => {
     expect(vm.todos.length).toBe(3)
     expect(wrapper!.findAllComponents(TodoItem).length).toBe(3)
   })
+
+  it('Edit Todo', async () => {
+    const todo = { id: 2, text: 'abc' }
+    const vm = wrapper!.vm as InstanceType<typeof TodoApp>
+    await vm.handleEditTodo(todo)
+    expect(vm.todos[1].text).toBe(todo.text)
+
+    // 当我传入的 text 是空字符串时，执行删除操作
+    todo.text = ''
+    await vm.handleEditTodo(todo)
+    expect(vm.todos.find(t => t.id === todo.id)).toBeFalsy()
+  })
+
+  it('Toggle all', async () => {
+    const vm = wrapper!.vm as InstanceType<typeof TodoApp>
+    const toggleAll = wrapper!.find('[data-testid="toggle-all"]')
+    // 断言所有的子任务都被选中
+    toggleAll.setValue(true)
+    expect(vm.todos.every(t => t.done)).toBeTruthy()
+    // 断言所有的子任务都不被选中
+    toggleAll.setValue(false)
+    expect(vm.todos.every(t => !t.done)).toBeTruthy()
+  })
+
+  it('Toggle all state', async () => {
+    const toggleAll = wrapper!.find('[data-testid="toggle-all"]')
+    const vm = wrapper!.vm as InstanceType<typeof TodoApp>
+
+    // 当所有任务都被选中时，toggleAll 应该被选中
+    vm.todos.forEach(todo => (todo.done = true))
+    await nextTick()
+    expect((toggleAll.element as HTMLInputElement).checked).toBeTruthy()
+
+    // 当有一个任务未被选中时，toggleAll 应该未被选中
+    vm.todos[0].done = false
+    await nextTick()
+    expect((toggleAll.element as HTMLInputElement).checked).toBeFalsy()
+
+  })
 })
