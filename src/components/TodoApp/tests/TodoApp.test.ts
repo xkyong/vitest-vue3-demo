@@ -1,4 +1,4 @@
-import { shallowMount, flushPromises } from '@vue/test-utils'
+import { shallowMount, flushPromises, mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import TodoApp from '../index.vue'
@@ -137,5 +137,9 @@ describe('TodoApp.vue', () => {
     expect(vm.filterTodos).toEqual([
       { id: 2, text: 'play', done: true },
     ])
+  })
+
+  it('snapshot', () => {
+    expect(wrapper!.html()).toMatchSnapshot()
   })
 })

@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TodoHeader.vue > snapshot 1`] = `
+"<header class="header">
+  <h1>todos</h1><input class="new-todo" placeholder="What needs to be done?" autofocus="" data-testid="new-todo">
+</header>"
+`;

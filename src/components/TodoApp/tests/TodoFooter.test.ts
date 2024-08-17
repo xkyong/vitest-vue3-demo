@@ -105,4 +105,8 @@ describe('TodoApp.vue', () => {
       }
     }
   })
+
+  it('snapshot', () => {
+    expect(wrapper!.html()).toMatchSnapshot()
+  })
 })

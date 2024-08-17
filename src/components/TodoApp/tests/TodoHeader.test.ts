@@ -13,4 +13,9 @@ describe('TodoHeader.vue', () => {
     expect((wrapper.emitted()['new-todo'][0] as any[])[0]).toBe(text)
     expect((newTodoInput.element as HTMLInputElement).value).toBe('')
   })
+
+  it('snapshot', () => {
+    const wrapper = shallowMount(TodoHeader)
+    expect(wrapper.html()).toMatchSnapshot()
+  })
 })

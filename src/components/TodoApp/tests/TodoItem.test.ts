@@ -85,4 +85,8 @@ describe('TodoItem.vue', () => {
     expect(vm.todo.text).toBe(text)
     expect(vm.isEditing).toBeFalsy()
   })
+
+  it('snapshot', () => {
+    expect(wrapper!.html()).toMatchSnapshot()
+  })
 })
