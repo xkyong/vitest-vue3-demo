@@ -13,19 +13,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Use pnpm
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7    
-
       - name: Set up Node
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Run tests
-        run: pnpm coverage
+        run: npm run coverage
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v4
