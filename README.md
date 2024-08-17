@@ -2,6 +2,8 @@
 
 > 注：Vitest 需要 Vite >=v5.0.0 和 Node >=v18.0.0！
 
+[![codecov](https://codecov.io/gh/XKyong/vitest-vue3-demo/graph/badge.svg?token=7USV1RKSZH)](https://codecov.io/gh/XKyong/vitest-vue3-demo)
+
 ### 相关资源
 
 vitest 官方文档：https://cn.vitest.dev/
