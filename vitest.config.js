@@ -1,4 +1,9 @@
+import path from 'node:path'
+import url from 'node:url'
 import { defineConfig } from 'vitest/config'
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+
 /**
  * you should include this plugin here, otherwise vitest will emit error:
  * `Error: Failed to parse source for import analysis because the content contains invalid 
@@ -15,4 +20,9 @@ export default defineConfig({
     globals: true,
   },
   plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  }
 })

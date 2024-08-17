@@ -1,18 +1,30 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, flushPromises } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import TodoApp from '../index.vue'  
+import { createRouter, createWebHashHistory } from 'vue-router'
+import TodoApp from '../index.vue'
 import TodoItem from '../TodoItem.vue'
+import { routes } from '@/router'
 
 import type { VueWrapper } from '@vue/test-utils'
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: routes,
+})
 
 describe('TodoApp.vue', () => {
   let wrapper: VueWrapper | null = null
   beforeEach(() => {
-    wrapper = shallowMount(TodoApp)
+    wrapper = shallowMount(TodoApp, {
+      global: {
+        plugins: [router]
+      }
+    })
+
     const vm = wrapper.vm as InstanceType<typeof TodoApp>
     vm.todos = [
       { id: 1, text: 'eat', done: false },
-      { id: 2, text: 'play', done: false },
+      { id: 2, text: 'play', done: true },
       { id: 3, text: 'sleep', done: false }
     ]
   })
@@ -84,5 +96,46 @@ describe('TodoApp.vue', () => {
     await nextTick()
     expect((toggleAll.element as HTMLInputElement).checked).toBeFalsy()
 
+  })
+
+  it('Clear all complete', async () => {
+    const vm = wrapper!.vm as InstanceType<typeof TodoApp>
+    vm.handleClearCompleted()
+    await nextTick()
+    expect(vm.todos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 3, text: 'sleep', done: false }
+    ])
+  })
+
+  it('Filter todos', async () => {
+    const vm = wrapper!.vm as InstanceType<typeof TodoApp>
+
+    // 将路由导航到 /，断言 filterTodos = 完成的任务列表
+    router.push('/')
+    await router.isReady()
+    await flushPromises()
+    expect(vm.filterTodos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 2, text: 'play', done: true },
+      { id: 3, text: 'sleep', done: false }
+    ])
+
+    // 将路由导航到 /active，断言 filterTodos = 所有未完成的任务
+    router.push('/active')
+    await router.isReady()
+    await flushPromises()
+    expect(vm.filterTodos).toEqual([
+      { id: 1, text: 'eat', done: false },
+      { id: 3, text: 'sleep', done: false }
+    ])
+
+    // 将路由导航到 /completed，断言 filterTodos = 所有已完成的任务
+    router.push('/completed')
+    await router.isReady()
+    await flushPromises()
+    expect(vm.filterTodos).toEqual([
+      { id: 2, text: 'play', done: true },
+    ])
   })
 })

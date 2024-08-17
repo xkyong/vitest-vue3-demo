@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@vue/test-utils": "^2.4.6",
-    "vue": "^3.3.11"
+    "vue": "^3.3.11",
+    "vue-router": "^4.4.3"
   },
   "devDependencies": {
+    "@types/node": "^22.4.0",
     "@vitejs/plugin-vue": "^5.1.2",
     "jsdom": "^24.1.1",
     "typescript": "^5.2.2",
