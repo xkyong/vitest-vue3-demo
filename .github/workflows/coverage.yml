@@ -22,6 +22,15 @@ jobs:
       - name: Run tests
         run: npm run coverage
 
+      - name: Run Build
+        run: npm run build  
+
+      - name: Deploy to gihub pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v4
         with:
