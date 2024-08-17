@@ -17,10 +17,10 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run tests
-        run: npx vitest run --coverage
+        run: pnpm coverage
 
       - name: Upload results to Codecov
         uses: codecov/codecov-action@v4
