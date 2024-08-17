@@ -7,9 +7,6 @@ jobs:
   test:
     name: Run tests and collect coverage
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
