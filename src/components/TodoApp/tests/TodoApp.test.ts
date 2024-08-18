@@ -1,4 +1,4 @@
-import { shallowMount, flushPromises, mount } from '@vue/test-utils'
+import { shallowMount, flushPromises } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import TodoApp from '../index.vue'
